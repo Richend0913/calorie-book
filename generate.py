@@ -4,6 +4,7 @@ Generates SEO-optimized food calorie pages for Japanese audience.
 """
 import os, json, re, math
 from datetime import datetime
+from urllib.parse import quote
 
 SITE_URL = "https://richend0913.github.io/calorie-book"
 ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327505164684489" crossorigin="anonymous"></script>'
@@ -318,6 +319,55 @@ FOODS = [
 ]
 
 
+AMAZON_TAG = "okuritegift-22"
+RAKUTEN_AFF_ID = "522e40a0.f2dc4208.522e40a1.385f875e"
+
+# Category -> list of (keyword, display_label)
+AFFILIATE_KEYWORDS = {
+    "肉類": [("プロテイン おすすめ", "おすすめプロテイン")],
+    "魚介類": [("プロテイン おすすめ", "おすすめプロテイン")],
+    "野菜": [("スムージー ダイエット", "ダイエットスムージー")],
+    "果物": [("スムージー ダイエット", "ダイエットスムージー")],
+    "お菓子・スイーツ": [("低糖質 お菓子", "低糖質おやつ"), ("糖質オフ スイーツ", "糖質オフスイーツ")],
+    "ご飯・麺類": [("糖質オフ 麺", "糖質オフ麺"), ("こんにゃく米", "こんにゃく米")],
+    "飲み物": [("ダイエット 飲料", "ダイエット飲料"), ("プロテイン ドリンク", "プロテインドリンク")],
+    "外食メニュー": [("カロリーカット サプリ", "カロリーカットサプリ")],
+}
+AFFILIATE_DEFAULT = [("体重計 体組成計", "体組成計")]
+
+
+def make_amazon_url(keyword):
+    return f"https://www.amazon.co.jp/s?k={quote(keyword)}&tag={AMAZON_TAG}"
+
+
+def make_rakuten_url(keyword):
+    rakuten_search = f"https://search.rakuten.co.jp/search/mall/{quote(keyword)}/"
+    return f"https://hb.afl.rakuten.co.jp/ichiba/{RAKUTEN_AFF_ID}/?pc={quote(rakuten_search, safe='')}&link_type=hybrid_url"
+
+
+def generate_affiliate_section(category, food_name):
+    items = AFFILIATE_KEYWORDS.get(category, AFFILIATE_DEFAULT)
+    # Always add the general item if not already covered
+    if category in AFFILIATE_KEYWORDS:
+        items = items + AFFILIATE_DEFAULT
+
+    links_html = ""
+    for keyword, label in items:
+        amazon_url = make_amazon_url(keyword)
+        rakuten_url = make_rakuten_url(keyword)
+        links_html += f'''<div class="aff-item">
+<a href="{amazon_url}" class="aff-btn-amazon" target="_blank" rel="nofollow noopener">Amazonで「{label}」を探す</a>
+<span class="aff-sub"><a href="{rakuten_url}" target="_blank" rel="nofollow noopener">楽天市場で探す</a></span>
+</div>
+'''
+
+    return f'''<div class="affiliate-section">
+<h3>{food_name}と合わせて！ダイエットにおすすめ</h3>
+<p class="aff-lead">食事管理と合わせて使いたい、ダイエットサポートアイテムをチェック！</p>
+{links_html}
+</div>'''
+
+
 def slug_to_filename(slug):
     return f"{slug}.html"
 
@@ -372,6 +422,8 @@ def generate_food_page(food, all_foods):
     )
 
     advice_html = "\n".join(f"<li>{a}</li>" for a in advice)
+
+    affiliate_html = generate_affiliate_section(category, name)
 
     comparison_rows = f'''<tr class="current-row">
 <td>{name}</td><td>{cal}</td><td>{protein}</td><td>{fat}</td><td>{carb}</td><td>{sugar}</td>
@@ -512,6 +564,8 @@ def generate_food_page(food, all_foods):
 <h3>{name}のダイエットアドバイス</h3>
 <ul>{advice_html}</ul>
 </div>
+
+{affiliate_html}
 
 <div class="comparison-section">
 <h3>{category}のカロリー比較（100gあたり）</h3>

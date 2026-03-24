@@ -321,6 +321,61 @@ header nav a:hover { color: var(--white); }
   color: var(--primary-dark);
 }
 
+/* Affiliate Section */
+.affiliate-section {
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  margin: 24px 0;
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid #22c55e;
+}
+.affiliate-section h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #166534;
+  margin-bottom: 8px;
+}
+.affiliate-section .aff-lead {
+  font-size: 0.92rem;
+  color: var(--text-light);
+  margin-bottom: 18px;
+}
+.aff-item {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.aff-btn-amazon {
+  display: inline-block;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: var(--white) !important;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(245,158,11,0.3);
+}
+.aff-btn-amazon:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.4);
+  color: var(--white) !important;
+}
+.aff-sub {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+.aff-sub a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.aff-sub a:hover {
+  color: var(--primary-dark);
+}
+
 /* Ad Space */
 .ad-space {
   background: var(--white);
@@ -354,4 +409,6 @@ footer a { color: rgba(255,255,255,0.85); }
   header h1 { font-size: 1.2rem; }
   .comparison-table { font-size: 0.8rem; }
   .comparison-table th, .comparison-table td { padding: 6px 4px; }
+  .aff-item { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .aff-btn-amazon { font-size: 0.88rem; padding: 10px 18px; width: 100%; text-align: center; }
 }
