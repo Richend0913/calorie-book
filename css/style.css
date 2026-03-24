@@ -33,7 +33,11 @@ body {
   color: var(--text);
   line-height: 1.8;
   font-size: 16px;
+  overflow-x: hidden;
 }
+
+img { max-width: 100%; height: auto; }
+table { max-width: 100%; }
 
 a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--primary-dark); }
@@ -407,6 +411,8 @@ footer a { color: rgba(255,255,255,0.85); }
   .food-card { padding: 14px; }
   header .container { padding: 0 12px; }
   header h1 { font-size: 1.2rem; }
+  header nav { display: flex; flex-wrap: wrap; gap: 6px; }
+  header nav a { font-size: 0.78rem; margin-left: 8px; }
   .comparison-table { font-size: 0.8rem; }
   .comparison-table th, .comparison-table td { padding: 6px 4px; }
   .aff-item { flex-direction: column; align-items: flex-start; gap: 6px; }
