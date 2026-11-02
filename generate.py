@@ -8,6 +8,7 @@ from urllib.parse import quote
 
 SITE_URL = "https://richend0913.github.io/calorie-book"
 ADSENSE = ''
+GA_TAG = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-63VB4HT3T2"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag(\'js\',new Date());gtag(\'config\',\'G-63VB4HT3T2\',{page_area:\'calorie-book\'});</script>'
 NOW = datetime.now().strftime("%Y-%m-%d")
 
 # ─── Food Data ───────────────────────────────────────────────────────────
@@ -518,6 +519,7 @@ def generate_food_page(food, all_foods):
     html = f'''<!DOCTYPE html>
 <html lang="ja">
 <head>
+{GA_TAG}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{name}のカロリー・糖質・栄養成分 | カロリーブック</title>
@@ -674,6 +676,7 @@ def generate_index(all_foods):
     html = f'''<!DOCTYPE html>
 <html lang="ja">
 <head>
+{GA_TAG}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>カロリーブック - 食品のカロリー・糖質・栄養成分データベース</title>
