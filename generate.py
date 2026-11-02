@@ -7,7 +7,7 @@ from datetime import datetime
 from urllib.parse import quote
 
 SITE_URL = "https://richend0913.github.io/calorie-book"
-ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327505164684489" crossorigin="anonymous"></script>'
+ADSENSE = ''
 NOW = datetime.now().strftime("%Y-%m-%d")
 
 # ─── Food Data ───────────────────────────────────────────────────────────
@@ -525,10 +525,6 @@ def generate_food_page(food, all_foods):
 {name}
 </div>
 
-<div class="ad-space">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 
 <div class="nutrition-grid">
 <div class="nutrition-card">
@@ -555,10 +551,6 @@ def generate_food_page(food, all_foods):
 </table>
 </div>
 
-<div class="ad-space">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 
 <div class="advice-section">
 <h3>{name}のダイエットアドバイス</h3>
@@ -575,10 +567,6 @@ def generate_food_page(food, all_foods):
 </table>
 </div>
 
-<div class="ad-space">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 
 <div class="related-section">
 <h3>関連する食品のカロリー</h3>
@@ -679,17 +667,9 @@ def generate_index(all_foods):
 
 <div class="container">
 
-<div class="ad-space">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 
 {sections}
 
-<div class="ad-space">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>
 
 </div>
 
