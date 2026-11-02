@@ -368,6 +368,36 @@ def generate_affiliate_section(category, food_name):
 </div>'''
 
 
+# ─── 旧AdSense枠（.ad-space）の商品カード化 ─────────────────────
+# 撤去で空いた広告枠のうち最大2枠（導入部・末尾）だけを、既存のAmazon/楽天
+# 検索リンク（generate_affiliate_section と同じキーワード・同じタグ/ID）で置き換える。
+# 中盤の枠は空けたままにする。
+AFF_SLOT_FALLBACK = ("プロテイン おすすめ", "おすすめプロテイン")
+
+
+def generate_ad_slot(category, position):
+    """position=0: 導入部スロット / position=1: 末尾スロット"""
+    items = AFFILIATE_KEYWORDS.get(category, AFFILIATE_DEFAULT)
+    if category in AFFILIATE_KEYWORDS:
+        items = items + AFFILIATE_DEFAULT
+    if position == 0:
+        keyword, label = items[0]
+        heading = "食事管理と一緒にチェック"
+    else:
+        keyword, label = items[-1] if len(items) > 1 else AFF_SLOT_FALLBACK
+        heading = "ダイエットサポートアイテム"
+    amazon_url = make_amazon_url(keyword)
+    rakuten_url = make_rakuten_url(keyword)
+    return f'''<div class="ad-space aff-slot">
+<div style="text-align:right;font-size:10px;color:#94a3b8;letter-spacing:.15em">PR</div>
+<h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">{heading}</h3>
+<div class="aff-item">
+<a href="{amazon_url}" class="aff-btn-amazon" target="_blank" rel="nofollow sponsored noopener">Amazonで「{label}」を探す</a>
+<span class="aff-sub"><a href="{rakuten_url}" target="_blank" rel="nofollow sponsored noopener">楽天市場で探す</a></span>
+</div>
+</div>'''
+
+
 def slug_to_filename(slug):
     return f"{slug}.html"
 
@@ -424,6 +454,8 @@ def generate_food_page(food, all_foods):
     advice_html = "\n".join(f"<li>{a}</li>" for a in advice)
 
     affiliate_html = generate_affiliate_section(category, name)
+    aff_slot_top = generate_ad_slot(category, 0)
+    aff_slot_bottom = generate_ad_slot(category, 1)
 
     comparison_rows = f'''<tr class="current-row">
 <td>{name}</td><td>{cal}</td><td>{protein}</td><td>{fat}</td><td>{carb}</td><td>{sugar}</td>
@@ -493,7 +525,6 @@ def generate_food_page(food, all_foods):
 <meta name="keywords" content="{name} カロリー,{name} 糖質,{name} 栄養,{name} ダイエット,{name} たんぱく質">
 <link rel="canonical" href="{SITE_URL}/foods/{slug_to_filename(slug)}">
 <link rel="stylesheet" href="../css/style.css">
-{ADSENSE}
 <script type="application/ld+json">{jsonld}</script>
 <script type="application/ld+json">{faq_jsonld}</script>
 </head>
@@ -525,6 +556,7 @@ def generate_food_page(food, all_foods):
 {name}
 </div>
 
+{aff_slot_top}
 
 <div class="nutrition-grid">
 <div class="nutrition-card">
@@ -567,6 +599,7 @@ def generate_food_page(food, all_foods):
 </table>
 </div>
 
+{aff_slot_bottom}
 
 <div class="related-section">
 <h3>関連する食品のカロリー</h3>
@@ -648,7 +681,6 @@ def generate_index(all_foods):
 <meta name="keywords" content="カロリー,糖質,栄養成分,ダイエット,食品カロリー,{all_names}">
 <link rel="canonical" href="{SITE_URL}/">
 <link rel="stylesheet" href="css/style.css">
-{ADSENSE}
 <script type="application/ld+json">{jsonld}</script>
 </head>
 <body>
